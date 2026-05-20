@@ -182,13 +182,31 @@ class GameDetailsScreen extends StatelessWidget {
 
             final game = snapshot.data!;
 
-            return Center(
-              child:Text(
-                game.title,
-                style: const TextStyle(
-                  fontSize:24,
-                  fontWeight: FontWeight.bold,
-                ),
+            return Padding(
+              padding: const EdgeInsets.all(16),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(
+                    game.title,
+                    style: const TextStyle(
+                      fontSize: 24,
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ),
+                  const SizedBox(height: 16),
+                    Text("Rodzaj: ${game.genre}"),
+                  const SizedBox(height: 8),
+                  Text("Wydawca: ${game.publisher}"),
+                  const SizedBox(height: 8),
+                  Text("Twórca: ${game.developer}"),
+                  const SizedBox(height: 8),
+                  Text("Data wydania: ${game.releaseDate}"),
+                  const SizedBox(height: 8),
+                  Text("URL Gry: ${game.gameUrl}"),
+                  const SizedBox(height: 8),
+                  Text("Profil: ${game.freeToGameProfileUrl}"),
+                ],
               ),
             );
         },
