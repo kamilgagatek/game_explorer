@@ -18,4 +18,18 @@ class GameApiService {
       throw Exception("Failed to load games");
     }
   }
+
+  static Future<Game> fetchGameDetails(int id) async {
+    final response = await http.get(
+      Uri.parse("$baseUrl/game?id=$id"),
+    );
+
+    if (response.statusCode == 200) {
+      final data = jsonDecode(response.body);
+
+      return Game.fromJson(data);
+    } else {
+      throw Exception("Failed to load game details");
+    }
+  }
 }

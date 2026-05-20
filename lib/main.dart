@@ -64,7 +64,19 @@ class HomeScreen extends StatelessWidget {
             itemBuilder: (context, index) {
               final game = games[index];
 
-              return Card(
+              return InkWell(
+                onTap: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => GameDetailsScreen(
+                        gameId: game.id,
+                      ),
+                    ),
+                  );
+                },
+
+              child: Card(
                 margin: const EdgeInsets.all(10),
                 elevation: 4,
                 child: Padding(
@@ -121,6 +133,7 @@ class HomeScreen extends StatelessWidget {
                     ],
                   ),
                 ),
+              )
               );
             },
           );
@@ -129,3 +142,58 @@ class HomeScreen extends StatelessWidget {
     );
   }
 }
+
+class GameDetailsScreen extends StatelessWidget {
+
+  final int gameId;
+
+  const GameDetailsScreen({
+    super.key,
+    required this.gameId,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+
+    return Scaffold(
+
+      appBar: AppBar(
+        title: const Text("Game Explorer"),
+        centerTitle: true,
+        backgroundColor: Colors.purple,
+        foregroundColor: Colors.white,
+      ),
+
+
+      body: FutureBuilder<Game>(
+        future: GameApiService.fetchGameDetails(gameId),
+
+        builder: (context, snapshot) {
+            if (snapshot.connectionState == ConnectionState.waiting) {
+              return const Center(
+                child: CircularProgressIndicator(),
+              );
+            }
+            if (snapshot.hasError) {
+              return Center(
+                child: Text("Error: ${snapshot.error}"),
+              );
+            }
+
+            final game = snapshot.data!;
+
+            return Center(
+              child:Text(
+                game.title,
+                style: const TextStyle(
+                  fontSize:24,
+                  fontWeight: FontWeight.bold,
+                ),
+              ),
+            );
+        },
+      ),
+    );
+  }
+}
+
