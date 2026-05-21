@@ -47,13 +47,18 @@ class HomeScreen extends StatelessWidget {
 
           if (snapshot.hasError) {
             return Center(
-              child: Text("Error: ${snapshot.error}"),
+              child: Text("Błąd: ${snapshot.error}"),
+
             );
           }
-
+          if (!snapshot.hasData) {
+            return const Center(
+              child: Text("Brak danych gry"),
+            );
+          }
           if (!snapshot.hasData || snapshot.data!.isEmpty) {
             return const Center(
-              child: Text("No games found"),
+              child: Text("Gry nie znalezione"),
             );
           }
 
